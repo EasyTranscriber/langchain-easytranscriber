@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "langchain-easytranscriber"
+version = "0.1.0"
+description = "LangChain document loader and tools for YouTube transcripts, AI summaries and YouTube search via EasyTranscriber"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10,<4.0"
+keywords = ["langchain", "youtube", "youtube-transcript", "transcript", "summarization", "document-loader", "easytranscriber"]
+dependencies = [
+  "langchain-core>=1.4,<2.0",
+  "easytranscriber-sdk>=0.1.0,<0.2",
+  "httpx>=0.27,<1",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://www.easytranscriber.com"
+Documentation = "https://github.com/EasyTranscriber/langchain-easytranscriber#readme"
+Source = "https://github.com/EasyTranscriber/langchain-easytranscriber"
+Issues = "https://github.com/EasyTranscriber/langchain-easytranscriber/issues"
+
+[dependency-groups]
+test = [
+  "pytest>=8,<10",
+  "pytest-asyncio>=0.24,<2",
+  "respx>=0.22,<1",
+  "langchain-tests>=1.1.9,<2.0",
+]
+lint = ["ruff>=0.8,<1"]
+typing = ["mypy>=1.11,<3"]
+
+# Metadata 2.4 keeps twine < 7 and older PyPI tooling happy (same as easytranscriber-sdk).
+[tool.hatch.build.targets.wheel]
+core-metadata-version = "2.4"
+packages = ["src/langchain_easytranscriber"]
+
+[tool.hatch.build.targets.sdist]
+core-metadata-version = "2.4"
+only-include = ["src", "tests", "pyproject.toml", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit_tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = ["compile: placeholder test used to compile integration tests without running them"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src/langchain_easytranscriber"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "D"]
+ignore = ["D105", "D107"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
